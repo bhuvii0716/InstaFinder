@@ -1,5 +1,3 @@
 pyrogram
 tgcrypto
 instaloader
-os
-shutil
