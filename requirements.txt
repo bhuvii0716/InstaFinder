@@ -3,3 +3,4 @@ tgcrypto
 instaloader
 uvicorn
 flask
+asgiref
