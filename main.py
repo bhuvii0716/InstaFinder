@@ -94,3 +94,6 @@ async def start():
     await server.serve()
     print("okie")
 
+if __name__ == "__main__":
+    print("bot is on mf")
+    bot.run(start())
