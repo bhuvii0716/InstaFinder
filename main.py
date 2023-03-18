@@ -1,11 +1,22 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram import enums
 import instaloader
 import os
+import time
 from os import listdir
 import shutil
+import uvicorn
+from flask import Flask
+from asgiref.wsgi import WsgiToAsgi
+
+fapp = Flask(__name__)
+asgi_app = WsgiToAsgi(fapp)
+
+@fapp.route('/')
+async def hello_world():
+    return 'Bot is Running Nigger'
 
 model_engine = "text-davinci-003"
 
@@ -18,7 +29,7 @@ START_BUTTON = JOIN_BUTTON = InlineKeyboardMarkup([[InlineKeyboardButton("Channe
 JOIN_BUTTON = InlineKeyboardMarkup([[InlineKeyboardButton("Channel", url="https://t.me/DumperBots")], [InlineKeyboardButton("Joined", callback_data="chatgpt")]])
 
 @bot.on_message(filters.command("start") & filters.all)
-async def start(bot, msg):
+async def start_i(bot, msg):
     reply_markup = START_BUTTON
     await msg.reply_text(text="<b>𝖧𝖾𝗅𝗅𝗈 𝖶𝖾𝗅𝖼𝗈𝗆𝖾 𝗍𝗈 𝖨𝗇𝗌𝗍𝖺𝖥𝗂𝗇𝖽𝖾𝗋. 𝖳𝗁𝗂𝗌 𝖻𝗈𝗍 𝗉𝗋𝗈𝗏𝗂𝖽𝖾 𝖨𝗇𝖿𝗈𝗋𝗆𝖺𝗍𝗂𝗈𝗇 𝗈𝖿 𝖨𝗇𝗌𝗍𝖺𝗀𝗋𝖺𝗆 𝖴𝗌𝖾𝗋 𝖻𝗒 𝖴𝗌𝖾𝗋𝗇𝖺𝗆𝖾.\n\n𝖠 𝖯𝗋𝗈𝖽𝗎𝖼𝗍 𝗈𝖿 @TheDumperNetwork</b>", reply_markup=reply_markup)
     await msg.reply_text("<b>Use /find instagram_username</b>")
@@ -71,7 +82,18 @@ async def instaf(bot, msg):
                 img = images
 
         await msg.reply_photo(photo=username + "/" + img, caption=text)
-        shutil.rmtree(username)
+        try:
+            shutil.rmtree(username)
+        except:
+            time.sleep(2)
         
-print("Bot is Running")
-bot.run()
+async def start():
+    await bot.start()
+    config = uvicorn.Config("__main__:asgi_app", port=5000, log_level="info")
+    server = uvicorn.Server(config)
+    await server.serve()
+    print("okie")
+
+if __name__ == "__main__":
+    print("bot is on mf")
+    bot.run(start())
