@@ -15,7 +15,7 @@ fapp = Flask(__name__)
 asgi_app = WsgiToAsgi(fapp)
 
 @fapp.route('/')
-async def hello_world():
+def hello_world():
     return 'Bot is Running Nigger'
 
 model_engine = "text-davinci-003"
