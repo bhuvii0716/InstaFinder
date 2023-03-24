@@ -8,20 +8,10 @@ import time
 from os import listdir
 import shutil
 import uvicorn
-from flask import Flask
-from asgiref.wsgi import WsgiToAsgi
-
-fapp = Flask(__name__)
-asgi_app = WsgiToAsgi(fapp)
-
-@fapp.route('/')
-def hello_world():
-    return 'Bot is Running Nigger'
 
 model_engine = "text-davinci-003"
 
 app = instaloader.Instaloader()
-app.login("user.16271627", "loadmc")
 
 bot = Client("InstaFinder", api_id=3769190, api_hash="e125d5abf9dadd0f9b861f774f5aae6a", bot_token="5863087473:AAHvdFs954RE-AjexU5jIPnRCXN0-7mvzUM")
 
@@ -32,7 +22,7 @@ JOIN_BUTTON = InlineKeyboardMarkup([[InlineKeyboardButton("Channel", url="https:
 async def start_i(bot, msg):
     reply_markup = START_BUTTON
     await msg.reply_text(text="<b>𝖧𝖾𝗅𝗅𝗈 𝖶𝖾𝗅𝖼𝗈𝗆𝖾 𝗍𝗈 𝖨𝗇𝗌𝗍𝖺𝖥𝗂𝗇𝖽𝖾𝗋. 𝖳𝗁𝗂𝗌 𝖻𝗈𝗍 𝗉𝗋𝗈𝗏𝗂𝖽𝖾 𝖨𝗇𝖿𝗈𝗋𝗆𝖺𝗍𝗂𝗈𝗇 𝗈𝖿 𝖨𝗇𝗌𝗍𝖺𝗀𝗋𝖺𝗆 𝖴𝗌𝖾𝗋 𝖻𝗒 𝖴𝗌𝖾𝗋𝗇𝖺𝗆𝖾.\n\n𝖠 𝖯𝗋𝗈𝖽𝗎𝖼𝗍 𝗈𝖿 @TheDumperNetwork</b>", reply_markup=reply_markup)
-    await msg.reply_text("<b>Use /find instagram_username</b>")
+    await msg.reply_text("<b>Send Instagram Account</b>")
 
 @bot.on_callback_query()
 def callback_query(bot, CallBackQuery):
@@ -49,9 +39,8 @@ def callback_query(bot, CallBackQuery):
         text = "<b>𝖧𝖾𝗅𝗅𝗈 𝖶𝖾𝗅𝖼𝗈𝗆𝖾 𝗍𝗈 𝖨𝗇𝗌𝗍𝖺𝖥𝗂𝗇𝖽𝖾𝗋. 𝖳𝗁𝗂𝗌 𝖻𝗈𝗍 𝗉𝗋𝗈𝗏𝗂𝖽𝖾 𝖨𝗇𝖿𝗈𝗋𝗆𝖺𝗍𝗂𝗈𝗇 𝗈𝖿 𝖨𝗇𝗌𝗍𝖺𝗀𝗋𝖺𝗆 𝖴𝗌𝖾𝗋 𝖻𝗒 𝖴𝗌𝖾𝗋𝗇𝖺𝗆𝖾.\n\n𝖠 𝖯𝗋𝗈𝖽𝗎𝖼𝗍 𝗈𝖿 @TheDumperNetwork</b>"
         CallBackQuery.edit_message_text(text, reply_markup=reply_markup)
 
-
-@bot.on_message(filters.command("find") & filters.all)
-async def instaf(bot, msg):
+@bot.on_message(filters.text & filters.private)
+async def insta(bot, msg):
     try:
         member = await bot.get_chat_member("DumperBots", msg.from_user.id)
         is_mem = True
@@ -86,14 +75,8 @@ async def instaf(bot, msg):
             shutil.rmtree(username)
         except:
             time.sleep(2)
-        
-async def start():
-    await bot.start()
-    config = uvicorn.Config("__main__:asgi_app", port=5000, log_level="info")
-    server = uvicorn.Server(config)
-    await server.serve()
-    print("okie")
 
-if __name__ == "__main__":
-    print("bot is on mf")
-    bot.run(start())
+@bot.on_message(filters.command("find") & filters.all)
+async def instaf(bot, msg):
+    try:
+        member
